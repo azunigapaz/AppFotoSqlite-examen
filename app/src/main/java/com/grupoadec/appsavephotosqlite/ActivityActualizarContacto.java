@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,7 @@ public class ActivityActualizarContacto extends AppCompatActivity {
     String longitudContacto;
     RequestQueue requestQueue;
     String apiActualizarContacto;
+    String httpUri = "https://pm2examengrupo1.luiszuniga.site/api/";
     private static final int PICK_IMAGE_REQUEST=100;
     Button updateBtn;
 
@@ -49,6 +51,8 @@ public class ActivityActualizarContacto extends AppCompatActivity {
         telefonoContacto = getIntent().getStringExtra("pieContactoTelefono");
         latitudContacto = getIntent().getStringExtra("pieContactoLatitud");
         longitudContacto = getIntent().getStringExtra("pieContactoLongitud");
+        apiActualizarContacto = httpUri + "updateContacto.php";
+        requestQueue = Volley.newRequestQueue(this);
 
 
         updateBtn = (Button)findViewById(R.id.updateBtn);
@@ -68,7 +72,7 @@ public class ActivityActualizarContacto extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                actulizaContacto();
             }
         });
 
@@ -102,6 +106,11 @@ public class ActivityActualizarContacto extends AppCompatActivity {
                                 String mensajeApi = jsonObject.getString("mensajeactualizacontacto");
                                 Toast.makeText(getApplicationContext(),mensajeApi,Toast.LENGTH_SHORT).show();
 
+
+                                Intent objectIntent = new Intent(getApplicationContext(),ShowImagesActivity.class);
+                                startActivity(objectIntent);
+                                finish();
+
                             }catch (JSONException ex){
                                 ex.printStackTrace();
                             }
@@ -120,11 +129,20 @@ public class ActivityActualizarContacto extends AppCompatActivity {
                 protected Map<String,String> getParams(){
                     Map<String,String> parametros = new HashMap<>();
                     // parametros que enviaremos al web service
-                    parametros.put("id", idContacto.toString());
-                    parametros.put("contactonombre", nombreContacto);
-                    parametros.put("contactotelefono", telefonoContacto);
-                    parametros.put("latitud", latitudContacto);
-                    parametros.put("longitud", longitudContacto);
+
+                    String idPost = idContacto.toString();
+                    String nombrePost = actualizarnombrecontacto_input.getText().toString();
+                    String telefonoPost = actualizartelefonocontacto_input.getText().toString();
+                    String latitudPost = actualizarlatitudcontacto_input.getText().toString();
+                    String longitudPost = actualizarlongitudcontacto_input.getText().toString();
+
+                    parametros.put("id", idPost);
+                    parametros.put("contactonombre", nombrePost);
+                    parametros.put("contactotelefono", telefonoPost);
+//                    parametros.put("latitud", latitudContacto);
+//                    parametros.put("longitud", longitudContacto);
+                    parametros.put("latitud", "143244");
+                    parametros.put("longitud", "345345");
                     return parametros;
                 }
             };
