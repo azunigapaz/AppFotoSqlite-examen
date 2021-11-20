@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -19,13 +20,28 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     // declaracion de variables
@@ -39,8 +55,14 @@ public class MainActivity extends AppCompatActivity {
     private Uri imageFilePath;
     private Bitmap imageToStore;
 
+    String httpUri = "http://pm2examengrupo1.luiszuniga.site/ApiExamenPm1/";
+    String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
+    RequestQueue requestQueue;
+    Button saveBtn;
+
     DatabaseHandler objectDatabaseHandler;
     String currentPhotoPath;
+    EditText nombrecontacto_input, telefonocontacto_input;
     TextView longitudcontacto_input, latitudcontacto_input;
 
     @Override
@@ -50,11 +72,24 @@ public class MainActivity extends AppCompatActivity {
         try {
             imageDetailsET=findViewById(R.id.nombrecontacto_input);
             objectImageView=findViewById(R.id.image);
+            saveBtn = (Button)findViewById(R.id.saveBtn);
 
-            longitudcontacto_input = (TextView)findViewById(R.id.longitudcontacto_input);
+            apiInsertarContacto = httpUri + "crearcontacto.php";
+            requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+            nombrecontacto_input = (EditText) findViewById(R.id.nombrecontacto_input);
+            telefonocontacto_input = (EditText) findViewById(R.id.telefonocontacto_input);
+
+            longitudcontacto_input = (TextView) findViewById(R.id.longitudcontacto_input);
             latitudcontacto_input = (TextView) findViewById(R.id.latitudcontacto_input);
 
-            objectDatabaseHandler=new DatabaseHandler(this);
+
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    insertarContactos();
+                }
+            });
 
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -109,18 +144,76 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void storeImage(View view){
-        try {
-            if(!imageDetailsET.getText().toString().isEmpty() && objectImageView.getDrawable() !=null && imageToStore!=null){
-                objectDatabaseHandler.storeImage(new ModelClass(imageDetailsET.getText().toString(),imageToStore));
-                cleanObjects();
-            }else{
-                Toast.makeText(this, "Por favor escriba un texto y seleccione una imagen", Toast.LENGTH_SHORT).show();
-            }
-        }catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    public void insertarContactos() {
+        String nombrecontacto = nombrecontacto_input.getText().toString();
+        String telefonocontacto = telefonocontacto_input.getText().toString();
+
+        //ProgressDialog progressDialog = new ProgressDialog(this);
+        if(nombrecontacto.isEmpty()) {
+            nombrecontacto_input.setError("Ingrese el nombre del contacto por favor");
+        } else if(telefonocontacto.isEmpty()) {
+            telefonocontacto_input.setError("Ingrese el telefono del contacto por favor");
+        } else {
+            //progressDialog.show();
+            StringRequest stringRequestInsertarContacto = new StringRequest(Request.Method.POST, apiInsertarContacto,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String serverResponse) {
+                            // recibimos la respuesta del web services
+                            try{
+
+                                JSONObject jsonObject = new JSONObject(serverResponse);
+
+                                // obtenemos las variables declaradas en el webservice
+                                String mensajeApi = jsonObject.getString("mensajeinsertarcontacto");
+                                Toast.makeText(getApplicationContext(),mensajeApi,Toast.LENGTH_SHORT).show();
+
+                                //Toast.makeText(getApplicationContext(), "Usuarios actualizados", Toast.LENGTH_SHORT).show();
+
+
+                            }catch (JSONException ex){
+                                ex.printStackTrace();
+
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // si hay algun error por parte de la libreria Voley
+
+                    // mostramos el error de la libreria
+                    Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
+                }
+            }){
+                // el primer paso es enviar los datos al web services, con sus respectivos parametros
+                // se hace un mapeo de un arreglo de 2 dimesiones
+                protected Map<String,String> getParams(){
+                    Map<String,String> parametros = new HashMap<>();
+                    // parametros que enviaremos al web service
+                    parametros.put("contactonombre", "Jose");
+                    parametros.put("contactotelefono", "1213231");
+
+                    return parametros;
+                }
+            };
+
+            // ejecutamos la cadena(enviamos la peticion)
+            requestQueue.add(stringRequestInsertarContacto);
         }
     }
+
+//    public void storeImage(View view){
+//        try {
+//            if(!imageDetailsET.getText().toString().isEmpty() && objectImageView.getDrawable() !=null && imageToStore!=null){
+//                objectDatabaseHandler.storeImage(new ModelClass(imageDetailsET.getText().toString(),imageToStore));
+//                cleanObjects();
+//            }else{
+//                Toast.makeText(this, "Por favor escriba un texto y seleccione una imagen", Toast.LENGTH_SHORT).show();
+//            }
+//        }catch (Exception e){
+//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     public void moveToShowActivity(View view){
         startActivity(new Intent(this, ShowImagesActivity.class));

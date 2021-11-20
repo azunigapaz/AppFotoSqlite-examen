@@ -155,7 +155,6 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:backgroundTint="@android:color/holo_green_dark"
-            android:onClick="storeImage"
             android:text="Salvar Contacto"
             android:textColor="@android:color/white" />
 
