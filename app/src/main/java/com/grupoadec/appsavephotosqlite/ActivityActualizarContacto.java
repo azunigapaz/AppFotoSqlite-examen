@@ -36,6 +36,7 @@ public class ActivityActualizarContacto extends AppCompatActivity {
     String httpUri = "https://pm2examengrupo1.luiszuniga.site/api/";
     private static final int PICK_IMAGE_REQUEST=100;
     Button updateBtn;
+    Button cancelarBtn;
 
     EditText actualizarnombrecontacto_input, actualizartelefonocontacto_input;
     TextView actualizarlongitudcontacto_input, actualizarlatitudcontacto_input;
@@ -56,6 +57,7 @@ public class ActivityActualizarContacto extends AppCompatActivity {
 
 
         updateBtn = (Button)findViewById(R.id.updateBtn);
+        cancelarBtn = (Button)findViewById(R.id.cancelarBtn);
         actualizarnombrecontacto_input = (EditText)findViewById(R.id.actualizarnombrecontacto_input);
         actualizartelefonocontacto_input = (EditText)findViewById(R.id.actualizartelefonocontacto_input);
         actualizarlongitudcontacto_input = (TextView) findViewById(R.id.actualizarlongitudcontacto_input);
@@ -73,6 +75,15 @@ public class ActivityActualizarContacto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 actulizaContacto();
+            }
+        });
+
+        cancelarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ShowImagesActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

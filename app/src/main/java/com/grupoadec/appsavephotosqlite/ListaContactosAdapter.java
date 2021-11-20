@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,9 +44,15 @@ public class ListaContactosAdapter extends BaseAdapter {
         try{
             TextView sr_imageDetailsTV = (TextView) objectView.findViewById(R.id.sr_imageDetailsTV);
             ImageView sr_imageIV = (ImageView) objectView.findViewById(R.id.sr_imageIV);
+            TextView sr_telefonocontactoTV = (TextView) objectView.findViewById(R.id.sr_telefonocontactoTV);
+            TextView sr_cantidadlongitudcontactoTV = (TextView) objectView.findViewById(R.id.sr_cantidadlongitudcontactoTV);
+            TextView sr_cantidadlatitudcontactoTV = (TextView) objectView.findViewById(R.id.sr_cantidadlatitudcontactoTV);
 
             sr_imageDetailsTV.setText(objectArrayListModelContacto.get(position).getNombre());
             sr_imageIV.setImageBitmap(objectArrayListModelContacto.get(position).getImage());
+            sr_telefonocontactoTV.setText(objectArrayListModelContacto.get(position).getTelefono());
+            sr_cantidadlongitudcontactoTV.setText(objectArrayListModelContacto.get(position).getLongitud());
+            sr_cantidadlatitudcontactoTV.setText(objectArrayListModelContacto.get(position).getLatitud());
 
         }catch(Exception e){
             Toast.makeText(objectContext, e.getMessage(),Toast.LENGTH_LONG).show();

@@ -52,6 +52,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
 
+    ImageView btnvolvermainactivity;
     EditText buscarcontactos_input;
 
     @Override
@@ -61,6 +62,16 @@ public class ShowImagesActivity extends AppCompatActivity {
         try {
             objectListView=findViewById(R.id.contactoslistview);
             buscarcontactos_input = (EditText) findViewById(R.id.buscarcontactos_input);
+            btnvolvermainactivity = (ImageView) findViewById(R.id.btnvolvermainactivity);
+
+            btnvolvermainactivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
 
             objectAlertDialogBuilderOpciones = new AlertDialog.Builder(this);
 
@@ -73,9 +84,6 @@ public class ShowImagesActivity extends AppCompatActivity {
 
             obtenerListaContactos();
 
-            objectAdapter = new ListaContactosAdapter(this, objectArrayListModelContacto);
-            objectListView.setAdapter(objectAdapter);
-
             buscarcontactos_input.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -84,7 +92,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    objectAdapter.buscarNombre(charSequence);
+                    objectAdapter.filtrarNombre(charSequence);
                 }
 
                 @Override
@@ -182,13 +190,15 @@ public class ShowImagesActivity extends AppCompatActivity {
                                     String imageBase64 = jsonObjectContactos.getString("image");
                                     // deserializar | Llamar funciona para deserealizar
 
-
                                     Bitmap imageBitman = stringToBitmap(imageBase64);
                                     objectModelContactoLista.setImage(imageBitman);
 
                                     //objectModelContactoLista.setImage(imageBitman);
                                     objectArrayListModelContacto.add(objectModelContactoLista);
                                 }
+
+                                objectAdapter = new ListaContactosAdapter(getApplicationContext(), objectArrayListModelContacto);
+                                objectListView.setAdapter(objectAdapter);
 
                             }catch (JSONException ex){
                                 ex.printStackTrace();
@@ -239,6 +249,8 @@ public class ShowImagesActivity extends AppCompatActivity {
                                 String mensajeApi = jsonObject.getString("mensajeeliminacontacto");
                                 Toast.makeText(getApplicationContext(),mensajeApi,Toast.LENGTH_SHORT).show();
 
+                                objectArrayListModelContacto.clear();
+                                obtenerListaContactos();
                             }catch (JSONException ex){
                                 ex.printStackTrace();
                             }

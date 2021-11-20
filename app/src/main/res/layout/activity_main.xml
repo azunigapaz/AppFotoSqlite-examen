@@ -17,8 +17,17 @@
             android:layout_marginTop="10dp">
 
             <ImageView
+                android:id="@+id/ivsalirapp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/logout" />
+
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/uthlogo"/>
         </FrameLayout>
@@ -31,8 +40,8 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:onClick="chooseImage"
                 android:scaleType="centerCrop"
                 android:src="@drawable/mood"

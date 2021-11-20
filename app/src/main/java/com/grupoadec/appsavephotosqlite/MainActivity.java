@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
     RequestQueue requestQueue;
     Button saveBtn;
+    ImageView ivsalirapp;
 
     DatabaseHandler objectDatabaseHandler;
     String currentPhotoPath;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             imageDetailsET=findViewById(R.id.nombrecontacto_input);
             objectImageView=findViewById(R.id.image);
             saveBtn = (Button)findViewById(R.id.saveBtn);
+            ivsalirapp = (ImageView) findViewById(R.id.ivsalirapp);
 
             apiInsertarContacto = httpUri + "crearcontacto.php";
             requestQueue = Volley.newRequestQueue(MainActivity.this);
@@ -93,6 +95,17 @@ public class MainActivity extends AppCompatActivity {
 
             longitudcontacto_input.setText("0.00");
             latitudcontacto_input.setText("0.00");
+
+            ivsalirapp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finishAndRemoveTask();
+                }
+            });
 
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

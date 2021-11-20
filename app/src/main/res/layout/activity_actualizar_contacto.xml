@@ -151,7 +151,6 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:backgroundTint="@android:color/holo_red_dark"
-            android:onClick="moveToShowActivity"
             android:text="Cancelar"
             android:textColor="@android:color/white" />
 
