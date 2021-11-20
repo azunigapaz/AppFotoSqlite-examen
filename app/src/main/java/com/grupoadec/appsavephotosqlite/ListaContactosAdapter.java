@@ -44,7 +44,7 @@ public class ListaContactosAdapter extends BaseAdapter {
             ImageView sr_imageIV = (ImageView) objectView.findViewById(R.id.sr_imageIV);
 
             sr_imageDetailsTV.setText(objectArrayListModelContacto.get(position).getNombre());
-            //sr_imageIV.setImageBitmap(objectArrayListModelContacto.get(position).getImage());
+            sr_imageIV.setImageBitmap(objectArrayListModelContacto.get(position).getImage());
 
         }catch(Exception e){
             Toast.makeText(objectContext, e.getMessage(),Toast.LENGTH_LONG).show();

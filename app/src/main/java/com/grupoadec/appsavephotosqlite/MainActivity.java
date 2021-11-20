@@ -279,10 +279,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String GetStringImage(Bitmap imageToStore) {
+        String encode = null;
         ByteArrayOutputStream ba = new ByteArrayOutputStream();
         imageToStore.compress(Bitmap.CompressFormat.JPEG, 100,ba);
         byte[] imagebyte = ba.toByteArray();
-        String encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
+        encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
         return encode;
     }
 

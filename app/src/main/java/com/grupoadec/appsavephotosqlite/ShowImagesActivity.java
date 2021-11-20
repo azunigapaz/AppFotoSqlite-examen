@@ -11,9 +11,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -32,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -175,9 +178,13 @@ public class ShowImagesActivity extends AppCompatActivity {
                                     objectModelContactoLista.setLatitud(jsonObjectContactos.getString("latitud"));
                                     objectModelContactoLista.setLongitud(jsonObjectContactos.getString("longitud"));
 
+
                                     String imageBase64 = jsonObjectContactos.getString("image");
-                                    // deserializar
-                                    Bitmap imageBitman;
+                                    // deserializar | Llamar funciona para deserealizar
+
+
+                                    Bitmap imageBitman = stringToBitmap(imageBase64);
+                                    objectModelContactoLista.setImage(imageBitman);
 
                                     //objectModelContactoLista.setImage(imageBitman);
                                     objectArrayListModelContacto.add(objectModelContactoLista);
@@ -262,6 +269,17 @@ public class ShowImagesActivity extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static Bitmap stringToBitmap(String string) {
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray = Base64.decode(string.split(",")[1], Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
 }
