@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,7 +44,7 @@ public class ShowImagesActivity extends AppCompatActivity {
     AlertDialog.Builder objectAlertDialogBuilderOpciones;
     String [] objectListItem;
 
-    String httpUri = "http://pm2examengrupo1.luiszuniga.site/api/";
+    String httpUri = "https://pm2examengrupo1.luiszuniga.site/api/";
 
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
 
@@ -93,6 +95,11 @@ public class ShowImagesActivity extends AppCompatActivity {
 
                     ModelContacto mc = objectArrayListModelContacto.get(position);
                     Integer idContacto = mc.getId();
+                    String nombreContacto = mc.getNombre();
+                    String telefonoContacto = mc.getTelefono();
+                    String latitudContacto = mc.getLatitud();
+                    String longitudContacto = mc.getLongitud();
+                    //Bitmap imagenContacto = mc.getImage();
 
                     objectListItem = new String[]{"Editar contacto","Eliminar Contacto"};
                     objectAlertDialogBuilderOpciones.setTitle("Seleccione un opcion");
@@ -100,7 +107,20 @@ public class ShowImagesActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(objectListItem[i] == "Editar contacto"){
-                                // aqui metodo de editar
+
+                                Intent objectIntent = new Intent(getApplicationContext(),ActivityActualizarContacto.class);
+
+                                objectIntent.putExtra("pieContactoID", idContacto.toString());
+                                objectIntent.putExtra("pieContactoNombre", nombreContacto);
+                                objectIntent.putExtra("pieContactoTelefono", telefonoContacto);
+                                objectIntent.putExtra("pieContactoLatitud", latitudContacto);
+                                objectIntent.putExtra("pieContactoLongitud", longitudContacto);
+                                // no olvidar cambiar el model class
+                                //objectIntent.putExtra("pieContactoImagen", imagenContacto);
+
+                                startActivity(objectIntent);
+                                finish();
+
                             }else if(objectListItem[i] == "Eliminar Contacto"){
                                 eliminarContacto(idContacto);
                                 dialogInterface.dismiss();
