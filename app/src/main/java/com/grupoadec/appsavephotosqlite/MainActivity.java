@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 //Toast.makeText(getApplicationContext(), "Usuarios actualizados", Toast.LENGTH_SHORT).show();
 
+                                cleanObjects();
 
                             }catch (JSONException ex){
                                 ex.printStackTrace();
@@ -280,6 +281,12 @@ public class MainActivity extends AppCompatActivity {
         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
         Drawable res = getResources().getDrawable(imageResource);
         objectImageView.setImageDrawable(res);
+
+        nombrecontacto_input.setText("");
+        telefonocontacto_input.setText("");
+
+        longitudcontacto_input.setText("0.00");
+        latitudcontacto_input.setText("0.00");
     }
 
     private String GetStringImage(Bitmap imageToStore) {
