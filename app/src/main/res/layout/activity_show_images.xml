@@ -6,32 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ShowImagesActivity">
 
-    <Button
-        android:id="@+id/showContactosBtn"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@android:color/holo_orange_dark"
-        android:text="Obtener Contactos" />
-
     <ImageView
         android:id="@+id/btnvolvermainactivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/showContactosBtn"
+        android:layout_toRightOf="@+id/buscarcontactos_input"
         android:src="@drawable/volver_icono"/>
 
     <EditText
         android:id="@+id/buscarcontactos_input"
-        android:layout_width="match_parent"
+        android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/showContactosBtn"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:hint="Buscar Contactos"
         android:inputType="textPersonName"

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityActualizarContacto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/actualizarimage"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:onClick="chooseImage"
+                android:scaleType="centerCrop"
+                android:src="@drawable/mood"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btnUpdatePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:text="Tomar Fotografia"
+            android:textColor="@android:color/white" />
+
+        <!-- NOMBRE CONTACTO -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/border_rounded">
+
+            <EditText
+                android:id="@+id/actualizarnombrecontacto_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Nombre Contacto"
+                android:inputType="textPersonName"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <!-- TELEFONO -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/border_rounded">
+
+            <EditText
+                android:id="@+id/actualizartelefonocontacto_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Telefono Contacto"
+                android:inputType="phone"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <!-- LONGITUD -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/border_rounded">
+
+            <TextView
+                android:id="@+id/actualizarlongitudcontacto_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Longitud Contacto"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <!-- LATITUD -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/border_rounded">
+
+            <TextView
+                android:id="@+id/actualizarlatitudcontacto_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Latitud Contacto"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/updateBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:onClick="actualizarContacto"
+            android:text="Actualizar Contacto"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/cancelarBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:onClick="moveToShowActivity"
+            android:text="Cancelar"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+</ScrollView>
