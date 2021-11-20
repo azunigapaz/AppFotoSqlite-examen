@@ -42,7 +42,7 @@ public class ShowImagesActivity extends AppCompatActivity {
     AlertDialog.Builder objectAlertDialogBuilderOpciones;
     String [] objectListItem;
 
-    String httpUri = "https://pm2examengrupo1.luiszuniga.site/api/";
+    String httpUri = "http://pm2examengrupo1.luiszuniga.site/api/";
 
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
 
@@ -103,6 +103,7 @@ public class ShowImagesActivity extends AppCompatActivity {
                                 // aqui metodo de editar
                             }else if(objectListItem[i] == "Eliminar Contacto"){
                                 eliminarContacto(idContacto);
+                                dialogInterface.dismiss();
                             }
                         }
                     });
@@ -174,10 +175,8 @@ public class ShowImagesActivity extends AppCompatActivity {
                 // se hace un mapeo de un arreglo de 2 dimesiones
                 protected Map<String,String> getParams(){
                     Map<String,String> parametros = new HashMap<>();
-                    String nombre = buscarcontactos_input.getText().toString();
                     // parametros que enviaremos al web service
                     parametros.put("opcion", "obtenerusuarios");
-                    parametros.put("nombre", nombre);
 
                     return parametros;
                 }
