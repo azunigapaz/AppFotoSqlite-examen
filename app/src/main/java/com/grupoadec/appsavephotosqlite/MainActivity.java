@@ -1,14 +1,6 @@
 package com.grupoadec.appsavephotosqlite;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -27,15 +20,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,10 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST=100;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int REQUEST_CODE = 2;
     static final int PETICION_ACCESO_CAM = 101;
 
     private Uri imageFilePath;
     private Bitmap imageToStore;
+
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     String httpUri = "https://pm2examengrupo1.luiszuniga.site/api/";
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
@@ -95,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            ObtenerCoordendasActual();
+
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -123,6 +131,15 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Se necesita el permiso de camara", Toast.LENGTH_LONG).show();
             }
         }
+
+        if (RequestCode == REQUEST_CODE && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCoordenada();
+            } else {
+                Toast.makeText(this, "Permiso Denegado ..", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @Override
@@ -211,19 +228,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void storeImage(View view){
-//        try {
-//            if(!imageDetailsET.getText().toString().isEmpty() && objectImageView.getDrawable() !=null && imageToStore!=null){
-//                objectDatabaseHandler.storeImage(new ModelClass(imageDetailsET.getText().toString(),imageToStore));
-//                cleanObjects();
-//            }else{
-//                Toast.makeText(this, "Por favor escriba un texto y seleccione una imagen", Toast.LENGTH_SHORT).show();
-//            }
-//        }catch (Exception e){
-//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
     public void moveToShowActivity(View view){
         startActivity(new Intent(this, ShowImagesActivity.class));
     }
@@ -285,6 +289,46 @@ public class MainActivity extends AppCompatActivity {
         byte[] imagebyte = ba.toByteArray();
         encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
         return encode;
+    }
+
+    private void getCoordenada() {
+
+        try {
+            com.google.android.gms.location.LocationRequest locationRequest = new com.google.android.gms.location.LocationRequest();
+            locationRequest.setInterval(10000);
+            locationRequest.setFastestInterval(3000);
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+            LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    super.onLocationResult(locationResult);
+                    LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+                    if (locationResult != null && locationResult.getLocations().size() > 0) {
+                        int latestLocationIndex = locationResult.getLocations().size() - 1;
+                        double latitud = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                        double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                        latitudcontacto_input.setText(String.valueOf(latitud));
+                        longitudcontacto_input.setText(String.valueOf(longitude));
+                    }
+                }
+            }, Looper.myLooper());
+        }catch (Exception ex){
+            System.out.println("Error es :" + ex);
+        }
+    }
+
+    private void ObtenerCoordendasActual() {
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
+        } else {
+            getCoordenada();
+        }
     }
 
 }
