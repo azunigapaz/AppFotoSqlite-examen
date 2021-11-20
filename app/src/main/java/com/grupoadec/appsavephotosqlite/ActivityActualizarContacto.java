@@ -45,10 +45,10 @@ public class ActivityActualizarContacto extends AppCompatActivity {
         setContentView(R.layout.activity_actualizar_contacto);
 
         idContacto = Integer.parseInt(getIntent().getStringExtra("pieContactoID"));
-        nombreContacto = getIntent().getStringExtra("nombreContacto");
-        telefonoContacto = getIntent().getStringExtra("telefonoContacto");
-        latitudContacto = getIntent().getStringExtra("latitudContacto");
-        longitudContacto = getIntent().getStringExtra("longitudContacto");
+        nombreContacto = getIntent().getStringExtra("pieContactoNombre");
+        telefonoContacto = getIntent().getStringExtra("pieContactoTelefono");
+        latitudContacto = getIntent().getStringExtra("pieContactoLatitud");
+        longitudContacto = getIntent().getStringExtra("pieContactoLongitud");
 
 
         updateBtn = (Button)findViewById(R.id.updateBtn);

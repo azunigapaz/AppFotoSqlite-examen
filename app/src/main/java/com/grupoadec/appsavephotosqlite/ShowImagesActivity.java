@@ -44,7 +44,7 @@ public class ShowImagesActivity extends AppCompatActivity {
     AlertDialog.Builder objectAlertDialogBuilderOpciones;
     String [] objectListItem;
 
-    String httpUri = "http://pm2examengrupo1.luiszuniga.site/api/";
+    String httpUri = "https://pm2examengrupo1.luiszuniga.site/api/";
 
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
 
