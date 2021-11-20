@@ -44,8 +44,6 @@ public class ListaContactosAdapter extends BaseAdapter {
             ImageView sr_imageIV = (ImageView) objectView.findViewById(R.id.sr_imageIV);
 
             sr_imageDetailsTV.setText(objectArrayListModelContacto.get(position).getNombre());
-
-            // aqui se debe convertir el base 64 a ImageBitman
             //sr_imageIV.setImageBitmap(objectArrayListModelContacto.get(position).getImage());
 
         }catch(Exception e){

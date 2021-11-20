@@ -7,11 +7,11 @@ public class ModelContacto {
     private Integer id;
     private String nombre;
     private String telefono;
-    private String image;
+    private Bitmap image;
     private String longitud;
     private String latitud;
 
-    public ModelContacto(Integer id, String nombre, String telefono, String image, String longitud, String latitud) {
+    public ModelContacto(Integer id, String nombre, String telefono, Bitmap image, String longitud, String latitud) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -34,9 +34,9 @@ public class ModelContacto {
 
     public void setTelefono(String telefono) {this.telefono = telefono;}
 
-    public String getImage() {return image;}
+    public Bitmap getImage() {return image;}
 
-    public void setImage(String image) {this.image = image;}
+    public void setImage(Bitmap image) {this.image = image;}
 
     public String getLongitud() {return longitud;}
 

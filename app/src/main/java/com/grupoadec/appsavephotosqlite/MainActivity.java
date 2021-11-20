@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri imageFilePath;
     private Bitmap imageToStore;
 
-    String httpUri = "http://pm2examengrupo1.luiszuniga.site/api/";
+    String httpUri = "https://pm2examengrupo1.luiszuniga.site/api/";
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
     RequestQueue requestQueue;
     Button saveBtn;

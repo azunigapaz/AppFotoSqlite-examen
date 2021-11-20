@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -173,7 +174,12 @@ public class ShowImagesActivity extends AppCompatActivity {
                                     objectModelContactoLista.setTelefono(jsonObjectContactos.getString("telefomo"));
                                     objectModelContactoLista.setLatitud(jsonObjectContactos.getString("latitud"));
                                     objectModelContactoLista.setLongitud(jsonObjectContactos.getString("longitud"));
-                                    //objectModelContactoLista.setImage(jsonObjectContactos.getString("imagen"));
+
+                                    String imageBase64 = jsonObjectContactos.getString("image");
+                                    // deserializar
+                                    Bitmap imageBitman;
+
+                                    //objectModelContactoLista.setImage(imageBitman);
                                     objectArrayListModelContacto.add(objectModelContactoLista);
                                 }
 
