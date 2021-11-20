@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
             longitudcontacto_input = (TextView) findViewById(R.id.longitudcontacto_input);
             latitudcontacto_input = (TextView) findViewById(R.id.latitudcontacto_input);
 
+            longitudcontacto_input.setText("0.00");
+            latitudcontacto_input.setText("0.00");
 
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -187,11 +191,16 @@ public class MainActivity extends AppCompatActivity {
             }){
                 // el primer paso es enviar los datos al web services, con sus respectivos parametros
                 // se hace un mapeo de un arreglo de 2 dimesiones
-                protected Map<String,String> getParams(){
+                protected Map<String,String> getParams()
+                {
+                    String image = GetStringImage(imageToStore);
                     Map<String,String> parametros = new HashMap<>();
                     // parametros que enviaremos al web service
                     parametros.put("contactonombre", nombrecontacto);
                     parametros.put("contactotelefono", telefonocontacto);
+                    parametros.put("latitud", latitudcontacto_input.getText().toString());
+                    parametros.put("longitud", longitudcontacto_input.getText().toString());
+                    parametros.put("imagen", image);
 
                     return parametros;
                 }
@@ -267,6 +276,14 @@ public class MainActivity extends AppCompatActivity {
         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
         Drawable res = getResources().getDrawable(imageResource);
         objectImageView.setImageDrawable(res);
+    }
+
+    private String GetStringImage(Bitmap imageToStore) {
+        ByteArrayOutputStream ba = new ByteArrayOutputStream();
+        imageToStore.compress(Bitmap.CompressFormat.JPEG, 100,ba);
+        byte[] imagebyte = ba.toByteArray();
+        String encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
+        return encode;
     }
 
 }
