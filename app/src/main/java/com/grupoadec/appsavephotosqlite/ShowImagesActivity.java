@@ -130,8 +130,10 @@ public class ShowImagesActivity extends AppCompatActivity {
                 // se hace un mapeo de un arreglo de 2 dimesiones
                 protected Map<String,String> getParams(){
                     Map<String,String> parametros = new HashMap<>();
+                    String nombre = buscarcontactos_input.getText().toString();
                     // parametros que enviaremos al web service
                     parametros.put("opcion", "obtenerusuarios");
+                    parametros.put("nombre", nombre);
 
                     return parametros;
                 }

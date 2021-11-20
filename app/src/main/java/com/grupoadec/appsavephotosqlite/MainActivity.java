@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri imageFilePath;
     private Bitmap imageToStore;
 
-    String httpUri = "http://pm2examengrupo1.luiszuniga.site/ApiExamenPm1/";
+    String httpUri = "http://pm2examengrupo1.luiszuniga.site/api/";
     String apiGetContactos, apiInsertarContacto, apiActualizarContacto, apiEliminarContacto;
     RequestQueue requestQueue;
     Button saveBtn;
@@ -190,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
                 protected Map<String,String> getParams(){
                     Map<String,String> parametros = new HashMap<>();
                     // parametros que enviaremos al web service
-                    parametros.put("contactonombre", "Jose");
-                    parametros.put("contactotelefono", "1213231");
+                    parametros.put("contactonombre", nombrecontacto);
+                    parametros.put("contactotelefono", telefonocontacto);
 
                     return parametros;
                 }
