@@ -186,14 +186,11 @@ public class ShowImagesActivity extends AppCompatActivity {
                                     objectModelContactoLista.setLatitud(jsonObjectContactos.getString("latitud"));
                                     objectModelContactoLista.setLongitud(jsonObjectContactos.getString("longitud"));
 
+                                    String imageString = jsonObjectContactos.getString("image");
+                                    byte [] imageBytes= Base64.decode(imageString,Base64.DEFAULT);
+                                    Bitmap objectBitmap = BitmapFactory.decodeByteArray(imageBytes, 0 , imageBytes.length);
+                                    objectModelContactoLista.setImage(objectBitmap);
 
-                                    String imageBase64 = jsonObjectContactos.getString("image");
-                                    // deserializar | Llamar funciona para deserealizar
-
-                                    Bitmap imageBitman = stringToBitmap(imageBase64);
-                                    objectModelContactoLista.setImage(imageBitman);
-
-                                    //objectModelContactoLista.setImage(imageBitman);
                                     objectArrayListModelContacto.add(objectModelContactoLista);
                                 }
 

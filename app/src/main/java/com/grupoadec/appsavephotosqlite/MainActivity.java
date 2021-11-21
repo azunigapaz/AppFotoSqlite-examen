@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
     String currentPhotoPath;
     EditText nombrecontacto_input, telefonocontacto_input;
     TextView longitudcontacto_input, latitudcontacto_input;
+
+    private ByteArrayOutputStream objectByteArrayOutputStream;
+    private byte[] imageInBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,13 +228,22 @@ public class MainActivity extends AppCompatActivity {
                 // se hace un mapeo de un arreglo de 2 dimesiones
                 protected Map<String,String> getParams()
                 {
-                    String image = GetStringImage(imageToStore);
+                    // preparamos la imagen para enviar
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) objectImageView.getDrawable();
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+                    byte [] bytes = byteArrayOutputStream.toByteArray();
+                    String image = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+                    //String image = GetStringImage(imageToStore);
                     Map<String,String> parametros = new HashMap<>();
                     // parametros que enviaremos al web service
                     parametros.put("contactonombre", nombrecontacto);
                     parametros.put("contactotelefono", telefonocontacto);
                     parametros.put("latitud", latitudcontacto_input.getText().toString());
                     parametros.put("longitud", longitudcontacto_input.getText().toString());
+                    //parametros.put("imagen", image);
                     parametros.put("imagen", image);
 
                     return parametros;
